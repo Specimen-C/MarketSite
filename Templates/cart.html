@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+
+<html>
+
+    <head>
+        <link rel="stylesheet" href="static\styles\Styles.css">
+        <title>Cart</title>
+    </head>
+
+
+    <div class = "logo" >
+
+        Welcome to Max's Grocery!
+
+    </div>
+
+
+    <div class="banner">
+
+        <a href="/" class = "bannerButton">Home</a><a href="/Cart" class = "bannerButton">Cart</a><a href="/orders" class = "bannerButton">Order History</a><a href="/logout" class = "bannerButton">Logout</a>
+
+    </div>
+
+
+    <body>
+
+        <div class = "cart-items">
+            <ul>
+                {% for prod in cart %}
+                    <li>
+                        {{ prod['name'] }} - ${{ "%.2f"|format(prod['price']) }}
+                        <form action="/Cart" method="POST" style="display:inline;">
+                            <input type="hidden" name="product_id" value="{{ prod['prodID'] }}">
+                            <button type="submit">Remove from cart</button>
+                        </form>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class = "checkout-button">
+            <form action="/checkout" method="POST" style="display:inline;">
+                <input type="hidden" name="checkout" value="checkout">
+                <button type="submit">Checkout: ${{ "%.2f"|format(total) }}</button>
+            </form>
+        </div>
+
+        
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for message in messages %}
+                    <div class="error"> {{ message }} </error>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+    </body>
+
+</html>
